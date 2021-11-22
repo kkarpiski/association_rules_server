@@ -1,5 +1,5 @@
 import {CommandHandler, ICommandHandler} from '@nestjs/cqrs';
-import {ResultInterface} from '../../../../../general/interfaces/resources';
+import {DatabaseResultInterface} from '../../../../../general/interfaces/database-resources';
 import {ResultsService} from '../../services/results.service';
 import {ResultFindOneAndUpdateCommand} from '../implementations';
 
@@ -11,7 +11,7 @@ export class ResultFindOneAndUpdateHandler implements ICommandHandler<ResultFind
   ) {
   }
 
-  public async execute({updateData}: ResultFindOneAndUpdateCommand): Promise<ResultInterface> {
+  public async execute({updateData}: ResultFindOneAndUpdateCommand): Promise<DatabaseResultInterface> {
     return await this.resultService.findOneAndUpdate(updateData);
   }
 }

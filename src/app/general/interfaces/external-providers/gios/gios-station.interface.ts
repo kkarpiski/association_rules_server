@@ -10,7 +10,7 @@ interface CityInterface {
   name: string;
 }
 
-export interface StationInterface {
+export interface GiosStationInterface {
   addressStreet: string;
   city: CityInterface;
   gegrLat: string;

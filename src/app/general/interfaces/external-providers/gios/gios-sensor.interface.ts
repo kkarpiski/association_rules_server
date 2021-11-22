@@ -5,7 +5,7 @@ interface ParamInterface {
   paramName: string;
 }
 
-export interface SensorInterface {
+export interface GiosSensorInterface {
   id: number;
   param: ParamInterface;
   stationId: number;
