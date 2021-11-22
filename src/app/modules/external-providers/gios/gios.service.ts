@@ -1,9 +1,9 @@
 import {BadRequestException, Injectable} from '@nestjs/common';
 import axios from 'axios';
 import {
-  SensorDataInterface,
-  SensorInterface, StationIndexInterface,
-  StationInterface
+  GiosSensorDataInterface,
+  GiosSensorInterface, GiosStationIndexInterface,
+  GiosStationInterface
 } from '../../../general/interfaces/external-providers/gios';
 import {AppLogger} from '../../../general/logger/logger';
 
@@ -12,7 +12,7 @@ export class GIOSService {
   private readonly apiBaseAddress = 'https://api.gios.gov.pl/pjp-api/rest/';
   private readonly appLogger = new AppLogger(GIOSService.name);
 
-  public async findAllStations(): Promise<StationInterface[]> {
+  public async findAllStations(): Promise<GiosStationInterface[]> {
     try {
       const response = await axios.get(`${this.apiBaseAddress}station/findAll`);
       return response.data;
@@ -22,7 +22,7 @@ export class GIOSService {
     }
   }
 
-  public async findSensors(stationId: number): Promise<SensorInterface[]> {
+  public async findSensors(stationId: number): Promise<GiosSensorInterface[]> {
     try {
       const response = await axios.get(`${this.apiBaseAddress}station/sensors/${stationId}`);
       return response.data;
@@ -32,7 +32,7 @@ export class GIOSService {
     }
   }
 
-  public async getSensorData(sensorId: number): Promise<SensorDataInterface> {
+  public async getSensorData(sensorId: number): Promise<GiosSensorDataInterface> {
     try {
       const response = await axios.get(`${this.apiBaseAddress}pjp-api/rest/data/getData/${sensorId}`);
       return response.data;
@@ -42,7 +42,7 @@ export class GIOSService {
     }
   }
 
-  public async getStationIndex(stationId: number): Promise<StationIndexInterface> {
+  public async getStationIndex(stationId: number): Promise<GiosStationIndexInterface> {
     try {
       const response = await axios.get(`${this.apiBaseAddress}pjp-api/rest/aqindex/getIndex/${stationId}`);
       return response.data;

@@ -1,10 +1,10 @@
 import {ResultsIndexesEnum} from '../../enums';
-import {DatabaseEntityInterface} from '../database-entity.interface';
 import {ResultsInterface} from './results.interface';
 
-export interface ResultInterface extends DatabaseEntityInterface {
-  bayesClassifierIndex: ResultsIndexesEnum;
-  index: ResultsIndexesEnum;
+export interface ResultInterface {
+  airQualityIndex: ResultsIndexesEnum;
+  bayesClassifiedAirQualityIndex: ResultsIndexesEnum;
+  measurementDate: Date;
   results: ResultsInterface;
   stationId: string;
 }

@@ -1,5 +1,5 @@
 import {IQueryHandler, QueryHandler} from '@nestjs/cqrs';
-import {StationInterface} from '../../../../../general/interfaces/external-providers/gios';
+import {GiosStationInterface} from '../../../../../general/interfaces/external-providers/gios';
 import {GIOSService} from '../../gios.service';
 import {FindAllStationsQuery} from '../implementations';
 
@@ -11,7 +11,7 @@ export class FindAllStationsHandler implements IQueryHandler<FindAllStationsQuer
   ) {
   }
 
-  public async execute(): Promise<StationInterface[]> {
+  public async execute(): Promise<GiosStationInterface[]> {
     return this.giosService.findAllStations();
   }
 }

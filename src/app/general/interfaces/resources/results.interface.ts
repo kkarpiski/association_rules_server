@@ -1,9 +1,9 @@
 export interface ResultsInterface {
-  C6H6: string;
-  CO: string;
-  NO2: string;
-  O3: string;
-  PM10: string;
-  PM25: string;
-  SO2: string;
+  C6H6: number | null;
+  CO: number | null;
+  NO2: number | null;
+  O3: number | null;
+  PM10: number | null;
+  PM25: number | null;
+  SO2: number | null;
 }

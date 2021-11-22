@@ -3,7 +3,7 @@ interface DateValueInterface {
   value: number;
 }
 
-export interface SensorDataInterface {
+export interface GiosSensorDataInterface {
   key: string;
-  values: DateValueInterface;
+  values: DateValueInterface[];
 }

@@ -1,6 +1,4 @@
-import {DatabaseEntityInterface} from '../database-entity.interface';
-
-export interface StationInterface extends DatabaseEntityInterface {
-  externalId: number;
+export interface StationInterface {
+  externalId: string;
   stationName: string;
 }

@@ -1,5 +1,5 @@
 import {IQueryHandler, QueryHandler} from '@nestjs/cqrs';
-import {SensorInterface} from '../../../../../general/interfaces/external-providers/gios';
+import {GiosSensorInterface} from '../../../../../general/interfaces/external-providers/gios';
 import {GIOSService} from '../../gios.service';
 import {FindSensorsQuery} from '../implementations';
 
@@ -11,7 +11,7 @@ export class FindSensorsHandler implements IQueryHandler<FindSensorsQuery> {
   ) {
   }
 
-  public async execute({stationId}: FindSensorsQuery): Promise<SensorInterface[]> {
+  public async execute({stationId}: FindSensorsQuery): Promise<GiosSensorInterface[]> {
     return this.giosService.findSensors(stationId);
   }
 }
