@@ -1,13 +1,14 @@
 import mongoose from 'mongoose';
 import {databaseConfig} from '../../configs';
-import {DB_CON_TOKEN} from './database.constants';
+import {DB_CONNECTION_TOKEN} from './database.constants';
 
 export const databaseProviders = [
   {
-    provide: DB_CON_TOKEN,
+    provide: DB_CONNECTION_TOKEN,
     useFactory: (): Promise<typeof mongoose> => {
       return mongoose.connect(
-        databaseConfig.connectionUrl
+        databaseConfig.connectionUrl,
+        {useNewUrlParser: true}
       );
     }
   }

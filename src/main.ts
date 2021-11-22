@@ -1,8 +1,23 @@
-import {NestFactory} from '@nestjs/core';
-import {AppModule} from './app.module';
+import exitHook from 'async-exit-hook';
+import {AppDispatcher} from './app.dispatcher';
+import {Logger} from './services/loggers';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
-}
-bootstrap();
+const logger = new Logger('Index');
+
+logger.log('Start');
+
+const dispatcher = new AppDispatcher();
+dispatcher
+  .dispatch()
+  .then(() => logger.log('Everything up'))
+  .catch(e => {
+    logger.error(e.message, e.stack);
+    process.exit(1);
+  });
+
+exitHook(callback => {
+  dispatcher.shutdown().then(() => {
+    logger.log('Graceful shutdown the server');
+    callback();
+  });
+});
