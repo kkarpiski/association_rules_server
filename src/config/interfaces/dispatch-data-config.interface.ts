@@ -1,9 +1,9 @@
 import {MicroserviceOptions} from '@nestjs/microservices';
 
 export interface DispatchDataConfigInterface {
+  port: number;
   host: string;
   hostName: string;
-  microService: MicroserviceOptions;
-  port: number;
   uuid: string;
+  microService: MicroserviceOptions;
 }

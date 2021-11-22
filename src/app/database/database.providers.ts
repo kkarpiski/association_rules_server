@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
-import {databaseConfig} from '../../configs';
+import {databaseConfig} from '../../config/configs';
 import {DB_CONNECTION_TOKEN} from './database.constants';
+import mongoose from 'mongoose';
 
 export const databaseProviders = [
   {

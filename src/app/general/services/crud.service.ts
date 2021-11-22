@@ -3,10 +3,11 @@ import {Document, Model} from 'mongoose';
 import {
   CreateInterface,
   DeleteManyInterface,
-  FindInterface, FindOneAndDeleteInterface,
+  FindInterface,
+  FindOneAndDeleteInterface,
   FindOneAndUpdateInterface,
   FindOneInterface
-} from '../../interfaces/crud';
+} from '../interfaces/crud';
 
 @Injectable()
 export class CrudService<T extends Document> {

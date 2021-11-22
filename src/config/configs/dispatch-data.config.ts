@@ -1,5 +1,5 @@
 import {Transport} from '@nestjs/microservices';
-import {DispatchDataConfigInterface} from '../interfaces/configs';
+import {DispatchDataConfigInterface} from '../interfaces';
 
 export const dispatchDataConfig: DispatchDataConfigInterface = {
   port: parseInt(process.env.PORT, 10),

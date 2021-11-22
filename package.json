@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "bayesian-classifier-server",
   "version": "0.0.1",
   "description": "",
   "author": "Michał Drzewiecki <drzewiecki.mt@gmail.com>",
@@ -11,7 +11,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com/miki1806/streszczenia-backend"
+    "url": "git@gitlab.com/miki1806/bayesian-classifier-server"
   },
   "engines": {
     "node": "11.10.0",

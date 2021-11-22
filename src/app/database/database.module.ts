@@ -1,7 +1,6 @@
-import {Global, Module} from '@nestjs/common';
+import {Module} from '@nestjs/common';
 import {databaseProviders} from './database.providers';
 
-@Global()
 @Module({
   providers: [
     ...databaseProviders
@@ -10,5 +9,4 @@ import {databaseProviders} from './database.providers';
     ...databaseProviders
   ]
 })
-export class DatabaseModule {
-}
+export class DatabaseModule {}

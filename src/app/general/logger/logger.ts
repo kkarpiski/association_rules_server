@@ -1,6 +1,6 @@
 import {LoggerService} from '@nestjs/common';
 import {createLogger, format, Logger, transports} from 'winston';
-import {dispatchDataConfig, loggerConfig} from '../../configs';
+import {dispatchDataConfig, loggerConfig} from '../../../config/configs';
 
 export class AppLogger implements LoggerService {
   private readonly logger: Logger;

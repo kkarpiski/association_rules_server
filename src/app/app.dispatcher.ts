@@ -3,9 +3,10 @@ import {NestFactory} from '@nestjs/core';
 import {json, urlencoded} from 'body-parser';
 import {useContainer} from 'class-validator';
 import cors from 'cors';
+import {dispatchDataConfig} from '../config/configs';
 import {AppModule} from './app.module';
-import {dispatchDataConfig} from './configs';
-import {AppLogger} from './services/loggers';
+import {HttpExceptionFilter} from './general/filters/http-exception.filter';
+import {AppLogger} from './general/logger/logger';
 
 export class AppDispatcher {
   private app: INestApplication;
@@ -29,6 +30,7 @@ export class AppDispatcher {
 
     useContainer(this.app.select(AppModule), {fallbackOnErrors: true});
     this.app.use(cors());
+    this.app.useGlobalFilters(new HttpExceptionFilter());
     this.app.useGlobalPipes(new ValidationPipe());
 
     this.app.use(json({limit: '10mb'}));
@@ -49,7 +51,5 @@ export class AppDispatcher {
     await this.app.listen(port, host);
 
     this.logger.log(`Server is listening http://${host}:${port}`);
-    this.logger.log(`Swagger is exposed at http://${host}:${port}/swagger`);
-    this.logger.log(`Swagger-stats are exposed at http://${host}:${port}/swagger-stats/ui`);
   }
 }

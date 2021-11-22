@@ -1,8 +1,8 @@
 import exitHook from 'async-exit-hook';
-import {AppDispatcher} from './app.dispatcher';
-import {Logger} from './services/loggers';
+import {AppDispatcher} from './app/app.dispatcher';
+import {AppLogger} from './app/general/logger/logger';
 
-const logger = new Logger('Index');
+const logger = new AppLogger('Index');
 
 logger.log('Start');
 
