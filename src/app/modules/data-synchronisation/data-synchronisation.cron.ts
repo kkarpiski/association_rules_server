@@ -2,35 +2,39 @@ import {Injectable} from '@nestjs/common';
 import {CommandBus, QueryBus} from '@nestjs/cqrs';
 import {Cron} from '@nestjs/schedule';
 import {GIOSDataToStationAdapter} from '../../general/adapters/resources';
+import {ResultsBuilder} from '../../general/builders/resources';
 import {DatabaseStationInterface} from '../../general/interfaces/database-resources';
 import {GiosSensorDataInterface, GiosStationInterface} from '../../general/interfaces/external-providers/gios';
 import {StationInterface} from '../../general/interfaces/resources';
 import {AppLogger} from '../../general/logger/logger';
+import {ResultModel} from '../../general/models/resources';
 import {
   FindAllStationsQuery,
   FindSensorsQuery,
-  GetSensorDataQuery,
-  GetStationIndexQuery
+  GetSensorDataQuery
 } from '../external-providers/gios/queries/implementations';
+import {ResultFindOneAndUpdateCommand} from '../resources/results/commands/implementations';
 import {StationFindOneAndUpdateCommand} from '../resources/stations/commands/implementations';
 
 @Injectable()
 export class DataSynchronisationCron {
   private readonly logger = new AppLogger(DataSynchronisationCron.name);
 
-  constructor(
+  public constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus
   ) {
   }
 
-  @Cron('* 1 * * * *')
+  @Cron('1 15 * * * *')
   public async SynchroniseDataWithGIOS(): Promise<void> {
+    this.logger.debug('[SynchroniseDataWithGIOS] starting...');
     const stations = await this.getMappedStations();
     for (const station of stations) {
       const databaseStation = await this.createAndGetStation(station);
       await this.synchroniseStationResults(databaseStation);
     }
+    this.logger.debug('[SynchroniseDataWithGIOS] finishing...');
   }
 
   private async synchroniseStationResults(station: DatabaseStationInterface): Promise<void> {
@@ -42,8 +46,25 @@ export class DataSynchronisationCron {
       const sensorPromise = this.queryBus.execute(new GetSensorDataQuery(id));
       resultPromises.push(sensorPromise);
     }
-    const [sensorsData] = await Promise.all([resultPromises]);
-    const stationIndexData = await this.queryBus.execute(new GetStationIndexQuery(+externalId));
+    const sensorsData = await Promise.all(resultPromises);
+    const results = new ResultsBuilder({
+      results: sensorsData,
+      station: station
+    }).getResults();
+    for (const result of results) {
+      const resultModel = new ResultModel(result);
+      const createData = resultModel.getCreateData();
+      if (!createData) {
+        continue;
+      }
+      const measurementDate = resultModel.getMeasurementDate();
+      const stationId = resultModel.getStationId();
+      await this.commandBus.execute(new ResultFindOneAndUpdateCommand({
+        conditions: {stationId, measurementDate},
+        update: {$set: createData},
+        options: {upsert: true, useFindAndModify: false}
+      }));
+    }
   }
 
   private async createAndGetStation(station: StationInterface): Promise<DatabaseStationInterface> {
@@ -51,7 +72,7 @@ export class DataSynchronisationCron {
     return this.commandBus.execute(new StationFindOneAndUpdateCommand({
       conditions: {externalId},
       update: {$set: {externalId, stationName}},
-      options: {upsert: true, new: true}
+      options: {upsert: true, new: true, useFindAndModify: false}
     }));
   }
 

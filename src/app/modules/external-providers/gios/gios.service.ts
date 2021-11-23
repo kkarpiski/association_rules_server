@@ -34,7 +34,7 @@ export class GIOSService {
 
   public async getSensorData(sensorId: number): Promise<GiosSensorDataInterface> {
     try {
-      const response = await axios.get(`${this.apiBaseAddress}pjp-api/rest/data/getData/${sensorId}`);
+      const response = await axios.get(`${this.apiBaseAddress}data/getData/${sensorId}`);
       return response.data;
     } catch (exception) {
       this.appLogger.error('[getSensorData] Something went wrong during fetching sensor data', exception);
@@ -44,7 +44,7 @@ export class GIOSService {
 
   public async getStationIndex(stationId: number): Promise<GiosStationIndexInterface> {
     try {
-      const response = await axios.get(`${this.apiBaseAddress}pjp-api/rest/aqindex/getIndex/${stationId}`);
+      const response = await axios.get(`${this.apiBaseAddress}aqindex/getIndex/${stationId}`);
       return response.data;
     } catch (exception) {
       this.appLogger.error('[getStationIndex] Something went wrong during fetching station index', exception);
