@@ -12,6 +12,6 @@ export class ResultFindOneAndUpdateHandler implements ICommandHandler<ResultFind
   }
 
   public async execute({updateData}: ResultFindOneAndUpdateCommand): Promise<DatabaseResultInterface> {
-    return await this.resultService.findOneAndUpdate(updateData);
+    return this.resultService.findOneAndUpdate(updateData);
   }
 }

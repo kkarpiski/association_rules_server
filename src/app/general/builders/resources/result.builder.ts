@@ -1,13 +1,16 @@
 import {DateTime} from 'luxon';
 import {AirQualityIndexCalculator} from '../../calculators/external-providers/gios';
+import {NaiveBayesianClassifier} from '../../classifiers/bayesian';
 import {ResultsIndexesEnum} from '../../enums';
 import {DatabaseStationInterface} from '../../interfaces/database-resources';
 import {GiosSensorDataInterface} from '../../interfaces/external-providers/gios';
 import {ResultInterface, ResultsInterface} from '../../interfaces/resources';
+import {ClassifierConfigModel} from '../../models/classifier-config';
 import {ResultsModel} from '../../models/resources';
 import {GiosDateToDateTimeTransformer} from '../../transformers/external-providers/gios';
 
 interface ResultBuilderParamsInterface {
+  classifierConfigModel: ClassifierConfigModel;
   measurementDate: DateTime;
   results: GiosSensorDataInterface[];
   station: DatabaseStationInterface;
@@ -75,8 +78,11 @@ export class ResultBuilder {
   }
 
   private getBayesianQualityIndex(results: ResultsInterface): ResultsIndexesEnum {
-    //TODO: replace with classified value
-    return this.getAirQualityIndex(results);
+    const {data: {classifierConfigModel}} = this;
+    if (!classifierConfigModel?.instance) {
+      return this.getAirQualityIndex(results);
+    }
+    return new NaiveBayesianClassifier(classifierConfigModel, new ResultsModel(results)).instance;
   }
 
   private getStationId(): string {

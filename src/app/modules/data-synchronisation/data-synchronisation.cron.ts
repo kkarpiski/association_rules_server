@@ -7,7 +7,9 @@ import {DatabaseStationInterface} from '../../general/interfaces/database-resour
 import {GiosSensorDataInterface, GiosStationInterface} from '../../general/interfaces/external-providers/gios';
 import {StationInterface} from '../../general/interfaces/resources';
 import {AppLogger} from '../../general/logger/logger';
+import {ClassifierConfigModel} from '../../general/models/classifier-config';
 import {ResultModel} from '../../general/models/resources';
+import {ClassifierConfigFindCurrentQuery} from '../classifier-config/queries/implementations';
 import {
   FindAllStationsQuery,
   FindSensorsQuery,
@@ -47,7 +49,9 @@ export class DataSynchronisationCron {
       resultPromises.push(sensorPromise);
     }
     const sensorsData = await Promise.all(resultPromises);
+    const classifierConfig = await this.queryBus.execute(new ClassifierConfigFindCurrentQuery());
     const results = new ResultsBuilder({
+      classifierConfigModel: new ClassifierConfigModel(classifierConfig),
       results: sensorsData,
       station: station
     }).getResults();

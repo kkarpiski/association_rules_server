@@ -1,10 +1,12 @@
 import {DatabaseStationInterface} from '../../interfaces/database-resources';
 import {GiosSensorDataInterface} from '../../interfaces/external-providers/gios';
 import {ResultInterface} from '../../interfaces/resources';
+import {ClassifierConfigModel} from '../../models/classifier-config';
 import {GiosDateToDateTimeTransformer} from '../../transformers/external-providers/gios';
 import {ResultBuilder} from './result.builder';
 
 interface ResultBuilderParamsInterface {
+  classifierConfigModel: ClassifierConfigModel;
   results: GiosSensorDataInterface[];
   station: DatabaseStationInterface;
 }

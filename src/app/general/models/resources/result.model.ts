@@ -1,5 +1,5 @@
-import {ResultInterface} from '../../interfaces/resources';
 import {DateTime} from 'luxon';
+import {ResultInterface} from '../../interfaces/resources';
 
 export class ResultModel {
 
