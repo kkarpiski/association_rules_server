@@ -26,7 +26,7 @@ export class DataSynchronisationCron {
   ) {
   }
 
-  @Cron('1 15 * * * *')
+  @Cron('1 39 * * * *')
   public async SynchroniseDataWithGIOS(): Promise<void> {
     this.logger.debug('[SynchroniseDataWithGIOS] starting...');
     const stations = await this.getMappedStations();

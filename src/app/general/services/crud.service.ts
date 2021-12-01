@@ -6,7 +6,7 @@ import {
   FindInterface,
   FindOneAndDeleteInterface,
   FindOneAndUpdateInterface,
-  FindOneInterface
+  FindOneInterface, UpdateManyInterface
 } from '../interfaces/crud';
 
 @Injectable()
@@ -30,6 +30,10 @@ export class CrudService<T extends Document> {
 
   public async findOneAndUpdate({conditions, update, options}: FindOneAndUpdateInterface): Promise<T> {
     return this.repositoryModel.findOneAndUpdate(conditions, update, options);
+  }
+
+  public async updateMany({conditions, update, options}: UpdateManyInterface): Promise<T> {
+    return this.repositoryModel.updateMany(conditions, update, options);
   }
 
   public async deleteMany({conditions, options}: DeleteManyInterface): Promise<T> {

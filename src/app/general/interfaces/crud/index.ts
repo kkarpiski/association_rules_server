@@ -4,3 +4,4 @@ export * from './find.interface';
 export * from './find-one.interface';
 export * from './find-one-and-delete.interface';
 export * from './find-one-and-update.interface';
+export * from './update-many.interface';
