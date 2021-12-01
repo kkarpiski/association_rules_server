@@ -10,6 +10,7 @@ import {ResultFindQuery} from '../../results/queries/implementations';
 
 @Injectable()
 export class StationsService extends CrudService<DatabaseStationInterface> {
+  private readonly resultsFetchMultiplier = 3;
 
   constructor(
     @Inject(STATION_TOKEN) private readonly stationModel: Model<DatabaseStationInterface>,
@@ -26,14 +27,14 @@ export class StationsService extends CrudService<DatabaseStationInterface> {
     const results = await this.queryBus.execute(new ResultFindQuery({
       options: {
         lean: true,
-        limit: stations.length,
+        limit: stations.length * this.resultsFetchMultiplier,
         sort: {measurementDate: -1}
       }
     }));
     const stationsWithResult: StationWithResultInterface[] = [];
     for (const station of stations) {
       const lastStationResult = await this.determineLastStationResult(station, results);
-      const stationWithResult = new StationWithResultBuilder(lastStationResult, station).instance;
+      const stationWithResult = new StationWithResultBuilder(station, lastStationResult).instance;
       stationsWithResult.push(stationWithResult);
     }
     return stationsWithResult;

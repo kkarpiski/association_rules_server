@@ -4,11 +4,13 @@ import {DatabaseModule} from '../../database/database.module';
 import {ResultsModule} from '../resources/results/results.module';
 import {classifierConfigProviders} from './classifier-config.providers';
 import {controllers} from './controllers';
+import {queryHandlers} from './queries/handlers';
 import {services} from './services';
 
 @Module({
   providers: [
     ...classifierConfigProviders,
+    ...queryHandlers,
     ...services
   ],
   controllers: [
@@ -18,6 +20,9 @@ import {services} from './services';
     CqrsModule,
     DatabaseModule,
     ResultsModule
+  ],
+  exports: [
+    ...queryHandlers
   ]
 })
 export class ClassifierConfigModule {
