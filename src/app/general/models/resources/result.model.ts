@@ -20,6 +20,11 @@ export class ResultModel {
     return this.getResultInstance().stationId;
   }
 
+  public hasBeenPositivelyClassified(): boolean {
+    const {airQualityIndex, bayesClassifiedAirQualityIndex} = this.result;
+    return airQualityIndex === bayesClassifiedAirQualityIndex;
+  }
+
   public getCreateData(): ResultInterface | null {
     if (!this.isValidToBeCreated()) {
       return null;

@@ -3,6 +3,7 @@ import {CqrsModule} from '@nestjs/cqrs';
 import {DatabaseModule} from '../../database/database.module';
 import {ResultsModule} from '../resources/results/results.module';
 import {classifierConfigProviders} from './classifier-config.providers';
+import {commandHandlers} from './commands/handlers';
 import {controllers} from './controllers';
 import {queryHandlers} from './queries/handlers';
 import {services} from './services';
@@ -10,6 +11,7 @@ import {services} from './services';
 @Module({
   providers: [
     ...classifierConfigProviders,
+    ...commandHandlers,
     ...queryHandlers,
     ...services
   ],
@@ -22,6 +24,7 @@ import {services} from './services';
     ResultsModule
   ],
   exports: [
+    ...commandHandlers,
     ...queryHandlers
   ]
 })

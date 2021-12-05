@@ -1,3 +1,4 @@
+export * from './count.interface';
 export * from './create.interface';
 export * from './delete-many.interface';
 export * from './find.interface';

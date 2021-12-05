@@ -1,7 +1,10 @@
 import * as mongoose from 'mongoose';
+import {ClassifierDataSchema} from './classifier-data.schema';
+import {ClassifierIndexAmountSchema} from './classifier-index-amount.schema';
 
 export const ClassifierConfigSchema = new mongoose.Schema({
-  classifierData: {type: mongoose.Schema.Types.Mixed, default: {}, required: true},
+  classifierData: {type: [ClassifierDataSchema], default: [], required: true},
+  classifierIndexesAmount: {type: ClassifierIndexAmountSchema, required: true},
   isCurrent: {type: Boolean, default: false, required: true},
   name: {type: String, required: true},
   positiveResults: {type: Number, default: 0, required: true},
