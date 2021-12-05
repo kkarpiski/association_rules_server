@@ -1,5 +1,7 @@
+import {ClassifierDataInterface} from './classifier-data.interface';
+
 export interface ClassifierConfigInterface {
-  classifierData: Record<string, number | string>;
+  classifierData: ClassifierDataInterface[];
   isCurrent: boolean;
   name: string;
   positiveResults: number;

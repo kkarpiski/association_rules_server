@@ -29,7 +29,7 @@ export class ClassifierConfigService extends CrudService<DatabaseClassifierConfi
 
   public async createClassifierConfig({trainingSetSize, ...restParams}: ClassifierConfigCreateParamsInterface): Promise<DatabaseClassifierConfigInterface> {
     const results = await this.queryBus.execute(new ResultFindQuery({
-      projection: ['bayesClassifiedAirQualityIndex', 'measurementDate', 'results'],
+      projection: ['airQualityIndex', 'measurementDate', 'results'],
       options: {
         lean: true,
         limit: trainingSetSize,

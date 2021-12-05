@@ -32,7 +32,7 @@ export class ClassifierConfigBuilder {
   private initClassifierConfig(): ClassifierConfigInterface {
     const {data: {name, trainingSetSize}} = this;
     return {
-      classifierData: {},
+      classifierData: [],
       isCurrent: true,
       name,
       positiveResults: 0,
