@@ -38,7 +38,7 @@ export class CrudService<T extends Document> {
   }
 
   public async count({conditions}: CountInterface): Promise<number> {
-    return this.repositoryModel.count(conditions);
+    return this.repositoryModel.countDocuments(conditions);
   }
 
   public async deleteMany({conditions, options}: DeleteManyInterface): Promise<T> {

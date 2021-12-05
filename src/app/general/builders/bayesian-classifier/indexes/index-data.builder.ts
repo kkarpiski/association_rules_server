@@ -6,10 +6,12 @@ export abstract class IndexDataBuilder {
   protected abstract indexType: ResultsIndexesEnum;
   private readonly values: number[] = [];
   private amountOfDefinedValues = 0;
+  private amountOfUndefinedValues = 0;
 
   public add(value: number | null): void {
     if (!value) {
       //TODO: handle missing data
+      this.amountOfUndefinedValues += 1;
       return;
     }
     this.values.push(value);
@@ -21,11 +23,12 @@ export abstract class IndexDataBuilder {
   }
 
   public getParsedData(): ClassifierIndexDataInterface {
-    const {amountOfDefinedValues, indexType, values} = this;
+    const {amountOfDefinedValues, amountOfUndefinedValues, indexType, values} = this;
     const mean = new MeanCalculator(values).instance;
     const standardDeviation = new StandardDeviationCalculator(values).instance;
     return {
       amountOfDefinedValues,
+      amountOfUndefinedValues,
       indexOfData: indexType,
       mean,
       standardDeviation

@@ -1,6 +1,10 @@
-import {ClassifierConfigCreateParamsInterface, ClassifierConfigInterface} from '../../interfaces/classifier-config';
+import {
+  ClassifierConfigCreateParamsInterface,
+  ClassifierConfigInterface,
+  ClassifierIndexAmountInterface
+} from '../../interfaces/classifier-config';
 import {DatabaseResultInterface} from '../../interfaces/database-resources';
-import {BayesianClassifierDataBuilder} from '../bayesian-classifier';
+import {BayesianClassifierDataBuilder, BayesianClassifierIndexAmountBuilder} from '../bayesian-classifier';
 
 export class ClassifierConfigBuilder {
   private readonly classifierConfig: ClassifierConfigInterface;
@@ -19,7 +23,8 @@ export class ClassifierConfigBuilder {
 
   private build(): this {
     this
-      .buildClassifierConfigData();
+      .buildClassifierConfigData()
+      .buildClassifierIndexAmountData();
     return this;
   }
 
@@ -29,10 +34,17 @@ export class ClassifierConfigBuilder {
     return this;
   }
 
+  private buildClassifierIndexAmountData(): this {
+    const {results} = this;
+    this.classifierConfig.classifierIndexesAmount = new BayesianClassifierIndexAmountBuilder(results).instance;
+    return this;
+  }
+
   private initClassifierConfig(): ClassifierConfigInterface {
     const {data: {name, trainingSetSize}} = this;
     return {
       classifierData: [],
+      classifierIndexesAmount: {} as ClassifierIndexAmountInterface,
       isCurrent: true,
       name,
       positiveResults: 0,

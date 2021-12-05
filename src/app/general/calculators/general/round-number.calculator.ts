@@ -13,6 +13,6 @@ export class RoundNumberCalculator {
 
   private roundValue(): number {
     const {value} = this;
-    return +value.toFixed(4);
+    return +value.toFixed(8);
   }
 }
