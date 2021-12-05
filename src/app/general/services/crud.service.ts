@@ -1,6 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import {Document, Model} from 'mongoose';
 import {
+  CountInterface,
   CreateInterface,
   DeleteManyInterface,
   FindInterface,
@@ -34,6 +35,10 @@ export class CrudService<T extends Document> {
 
   public async updateMany({conditions, update, options}: UpdateManyInterface): Promise<T> {
     return this.repositoryModel.updateMany(conditions, update, options);
+  }
+
+  public async count({conditions}: CountInterface): Promise<number> {
+    return this.repositoryModel.count(conditions);
   }
 
   public async deleteMany({conditions, options}: DeleteManyInterface): Promise<T> {
