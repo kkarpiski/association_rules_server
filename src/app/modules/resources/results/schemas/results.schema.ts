@@ -8,4 +8,4 @@ export const ResultsSchema = new mongoose.Schema({
   PM10: {type: Number, default: null, immutable: true},
   PM25: {type: Number, default: null, immutable: true},
   SO2: {type: Number, default: null, immutable: true}
-}, {_id: false, timestamps: {createdAt: true, updatedAt: true}});
+}, {_id: false});
