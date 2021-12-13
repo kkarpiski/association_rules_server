@@ -33,7 +33,8 @@ export class ClassifierConfigService extends CrudService<DatabaseClassifierConfi
       options: {
         lean: true,
         limit: trainingSetSize,
-        sort: {measurementDate: -1}
+        sort: {measurementDate: -1},
+        allowDiskUse: true
       }
     }));
     const newClassifierConfig = new ClassifierConfigBuilder(

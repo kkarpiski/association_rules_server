@@ -9,3 +9,5 @@ export const ResultSchema = new mongoose.Schema({
   results: {type: ResultsSchema, immutable: true},
   stationId: {type: String, immutable: true}
 }, {timestamps: {createdAt: true, updatedAt: true}});
+
+ResultSchema.index({measurementDate: -1});
