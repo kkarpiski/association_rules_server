@@ -17,4 +17,5 @@ export interface GiosStationInterface {
   gegrLon: string;
   id: number;
   stationName: string;
+  weatherData: string;
 }

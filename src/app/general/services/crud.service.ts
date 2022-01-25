@@ -14,7 +14,7 @@ import {
 export class CrudService<T extends Document> {
 
   constructor(
-    private readonly repositoryModel: Model<T>
+    private readonly repositoryModel
   ) {}
 
   public async findOne({conditions, projection, options}: FindOneInterface): Promise<T> {
@@ -30,7 +30,10 @@ export class CrudService<T extends Document> {
   }
 
   public async findOneAndUpdate({conditions, update, options}: FindOneAndUpdateInterface): Promise<T> {
-    return this.repositoryModel.findOneAndUpdate(conditions, update, options);
+    console.log(JSON.stringify(update));
+    const result = await this.repositoryModel.findOneAndUpdate(conditions, update, options);
+    console.log(JSON.stringify(result));
+    return result;
   }
 
   public async updateMany({conditions, update, options}: UpdateManyInterface): Promise<T> {

@@ -35,7 +35,7 @@ export class BayesianClassifierDataBuilder {
     results.forEach(result => {
       this.addResultToConfigData(result);
       counter++;
-      this.logger.debug(`[buildBayesianClassifierData] Progress ${((counter / total) * 100).toFixed(2)}`);
+      this.logger.debug(`[buildBayesianClassifierData] Progress ${(counter / total * 100).toFixed(2)}`);
     });
     return keyDataManager.getParsedData();
   }

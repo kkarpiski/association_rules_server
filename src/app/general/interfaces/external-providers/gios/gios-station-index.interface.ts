@@ -25,4 +25,6 @@ export interface GiosStationIndexInterface {
   stIndexLevel: IndexLevelInterface;
   stIndexStatus: boolean;
   stSourceDataDate: string;
+  stGeographicalLat: string;
+  stGeographicalLon: string;
 }

@@ -22,7 +22,7 @@ export class NormalDistributionCalculator {
 
   private calculatedNormalDistribution(): number {
     const {data: {mean, standardDeviation, value}} = this;
-    return (Math.pow(Math.E, (-1 * Math.pow(value - mean, 2)) / (2 * Math.pow(standardDeviation, 2)))) /
+    return Math.pow(Math.E, -1 * Math.pow(value - mean, 2) / (2 * Math.pow(standardDeviation, 2))) /
       (Math.pow(2 * Math.PI, 0.5) * standardDeviation);
   }
 }

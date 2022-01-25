@@ -8,9 +8,10 @@ import {ResultInterface, ResultsInterface} from '../../interfaces/resources';
 import {ClassifierConfigModel} from '../../models/classifier-config';
 import {ResultsModel} from '../../models/resources';
 import {GiosDateToDateTimeTransformer} from '../../transformers/external-providers/gios';
+import {WeatherDate} from '../../interfaces/external-providers/openWeather/openWeather_data';
 
 interface ResultBuilderParamsInterface {
-  classifierConfigModel: ClassifierConfigModel;
+  //classifierConfigModel: ClassifierConfigModel;
   measurementDate: DateTime;
   results: GiosSensorDataInterface[];
   station: DatabaseStationInterface;
@@ -20,7 +21,7 @@ export class ResultBuilder {
   private readonly result: ResultInterface;
 
   public constructor(
-    private readonly data: ResultBuilderParamsInterface
+      private readonly data: ResultBuilderParamsInterface
   ) {
     this.result = this.buildResult();
   }
@@ -35,9 +36,11 @@ export class ResultBuilder {
     const airQualityIndex = this.getAirQualityIndex(results);
     const classifiedIndex = this.getBayesianQualityIndex(results);
     const stationId = this.getStationId();
+    //const weatherData = this.getWeatherData();
     return {
+      bayesClassifiedAirQualityIndex: undefined,
       airQualityIndex,
-      bayesClassifiedAirQualityIndex: classifiedIndex,
+      //bayesClassifiedAirQualityIndex: classifiedIndex,
       measurementDate,
       results,
       stationId
@@ -51,7 +54,7 @@ export class ResultBuilder {
     const measurementDate = this.getMeasurementDate();
     results.forEach(result => {
       const foundResult = result.values.find(dateValue =>
-        +new GiosDateToDateTimeTransformer(dateValue.date).getParsedDate() === +measurementDate);
+          +new GiosDateToDateTimeTransformer(dateValue.date).getParsedDate() === +measurementDate);
       if (foundResult) {
         const {key} = result;
         const {value} = foundResult;
@@ -78,11 +81,13 @@ export class ResultBuilder {
   }
 
   private getBayesianQualityIndex(results: ResultsInterface): ResultsIndexesEnum {
-    const {data: {classifierConfigModel}} = this;
-    if (!classifierConfigModel?.instance) {
-      return this.getAirQualityIndex(results);
-    }
-    return new NaiveBayesianClassifier(classifierConfigModel, new ResultsModel(results)).instance;
+    return this.getAirQualityIndex(results);
+
+    // const {data: {classifierConfigModel}} = this;
+    // if (!classifierConfigModel?.instance) {
+    //   return this.getAirQualityIndex(results);
+    // }
+    // return new NaiveBayesianClassifier(classifierConfigModel, new ResultsModel(results)).instance;
   }
 
   private getStationId(): string {
@@ -91,10 +96,16 @@ export class ResultBuilder {
     return station._id.toString();
   }
 
-  private getMeasurementDate(): Date {
+  private getMeasurementDate(): DateTime {
     const {data} = this;
     const {measurementDate} = data;
     return measurementDate;
   }
-}
 
+  /*
+    private getWeatherData(): string {
+      const {data} = this;
+      return WeatherDate;
+    }
+   */
+}

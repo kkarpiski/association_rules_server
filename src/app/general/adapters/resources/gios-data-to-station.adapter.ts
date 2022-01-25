@@ -16,10 +16,13 @@ export class GIOSDataToStationAdapter {
 
   private transformGIOSStation(): StationInterface {
     const {giosStation} = this;
-    const {id, stationName} = giosStation;
+    const {id, stationName, gegrLat, gegrLon} = giosStation;
     return {
       externalId: id.toString(),
-      stationName
+      stationName,
+      gegrLat: gegrLat.toString(),
+      gegrLon: gegrLon.toString(),
+      weatherData: 'Temp: , Wilgotność: , Prędkość wiatru: '
     } as StationInterface;
   }
 }

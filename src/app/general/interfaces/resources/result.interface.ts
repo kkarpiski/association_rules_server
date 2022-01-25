@@ -1,8 +1,9 @@
 import {ResultsIndexesEnum} from '../../enums';
 import {ResultsInterface} from './results.interface';
+import {DateTime} from 'luxon';
 
 export interface ResultInterface extends BaseResultInterface{
-  measurementDate: Date;
+  measurementDate: DateTime;
   stationId: string;
 }
 

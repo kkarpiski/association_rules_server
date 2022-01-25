@@ -5,11 +5,9 @@ import mongoose from 'mongoose';
 export const databaseProviders = [
   {
     provide: DB_CONNECTION_TOKEN,
-    useFactory: (): Promise<typeof mongoose> => {
-      return mongoose.connect(
+    useFactory: (): Promise<typeof mongoose> => mongoose.connect(
         databaseConfig.connectionUrl,
-        {useNewUrlParser: true}
-      );
-    }
+        {}
+      )
   }
 ];

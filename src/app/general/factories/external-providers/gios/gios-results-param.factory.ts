@@ -14,6 +14,8 @@ export class GiosResultsParamFactory {
 
   public static getParamModel(key: ResultKeysEnum, value: number | null): GiosParamModel {
     switch (key) {
+      case ResultKeysEnum.gegrlat:
+      case ResultKeysEnum.gegrlon:
       case ResultKeysEnum.O3:
         return new Gios03Model(value);
       case ResultKeysEnum.C6H6:

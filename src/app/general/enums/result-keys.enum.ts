@@ -5,5 +5,7 @@ export enum ResultKeysEnum {
   O3 = 'O3',
   PM10 = 'PM10',
   PM25 = 'PM25',
-  SO2 = 'SO2'
+  SO2 = 'SO2',
+  gegrlat = 'gegrLat',
+  gegrlon = 'gegrLon'
 }

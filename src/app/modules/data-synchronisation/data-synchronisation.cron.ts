@@ -8,10 +8,8 @@ import {DatabaseStationInterface} from '../../general/interfaces/database-resour
 import {GiosSensorDataInterface, GiosStationInterface} from '../../general/interfaces/external-providers/gios';
 import {StationInterface} from '../../general/interfaces/resources';
 import {AppLogger} from '../../general/logger/logger';
-import {ClassifierConfigModel} from '../../general/models/classifier-config';
 import {ResultModel} from '../../general/models/resources';
 import {ClassifierConfigFindOneAndUpdateCommand} from '../classifier-config/commands/implementations';
-import {ClassifierConfigFindCurrentQuery} from '../classifier-config/queries/implementations';
 import {
   FindAllStationsQuery,
   FindSensorsQuery,
@@ -30,7 +28,7 @@ export class DataSynchronisationCron {
   ) {
   }
 
-  @Cron('1 19 * * * *')
+  @Cron('1 33 * * * *')
   public async SynchroniseDataWithGIOS(): Promise<void> {
     this.logger.debug('[SynchroniseDataWithGIOS] starting...');
     const stations = await this.getMappedStations();
@@ -40,7 +38,7 @@ export class DataSynchronisationCron {
       const databaseStation = await this.createAndGetStation(station);
       await this.synchroniseStationResults(databaseStation);
       progress++;
-      this.logger.debug(`[SynchroniseDataWithGIOS] Progress ${((progress / totalStationAmount) * 100).toFixed(2)}`);
+      this.logger.debug(`[SynchroniseDataWithGIOS] Progress ${(progress / totalStationAmount * 100).toFixed(2)}`);
     }
     this.logger.debug('[SynchroniseDataWithGIOS] finishing...');
   }
@@ -55,9 +53,7 @@ export class DataSynchronisationCron {
       resultPromises.push(sensorPromise);
     }
     const sensorsData = await Promise.all(resultPromises);
-    const classifierConfig = await this.queryBus.execute(new ClassifierConfigFindCurrentQuery());
     const results = new ResultsBuilder({
-      classifierConfigModel: new ClassifierConfigModel(classifierConfig),
       results: sensorsData,
       station: station
     }).getResults();
@@ -79,12 +75,12 @@ export class DataSynchronisationCron {
         positiveResults += 1;
       }
     }
-    const testsAmount = results.length;
-    await this.updateClassifierConfig({
-      configId: classifierConfig._id.toString(),
-      testsAmount,
-      positiveResults
-    });
+    //const testsAmount = results.length;
+    // await this.updateClassifierConfig({
+    //   configId: classifierConfig._id.toString(),
+    //   testsAmount,
+    //   positiveResults
+    // });
   }
   private async updateClassifierConfig({
                                          configId,
@@ -100,10 +96,11 @@ export class DataSynchronisationCron {
   }
 
   private async createAndGetStation(station: StationInterface): Promise<DatabaseStationInterface> {
-    const {externalId, stationName} = station;
+    const {externalId, stationName, gegrLat, gegrLon} = station;
+    console.log(gegrLat + ' ' + gegrLon);
     return this.commandBus.execute(new StationFindOneAndUpdateCommand({
       conditions: {externalId},
-      update: {$set: {externalId, stationName}},
+      update: {$set: {externalId, stationName, gegrLat, gegrLon}},
       options: {upsert: true, new: true, useFindAndModify: false}
     }));
   }

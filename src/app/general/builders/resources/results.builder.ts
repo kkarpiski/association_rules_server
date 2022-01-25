@@ -6,7 +6,7 @@ import {GiosDateToDateTimeTransformer} from '../../transformers/external-provide
 import {ResultBuilder} from './result.builder';
 
 interface ResultBuilderParamsInterface {
-  classifierConfigModel: ClassifierConfigModel;
+  //classifierConfigModel: ClassifierConfigModel;
   results: GiosSensorDataInterface[];
   station: DatabaseStationInterface;
 }

@@ -21,7 +21,7 @@ export class StationsService extends CrudService<DatabaseStationInterface> {
 
   public async findStationsWithLastResults(): Promise<StationWithResultInterface[]> {
     const stations = await this.find({
-      projection: ['externalId', 'stationName'],
+      projection: ['externalId', 'stationName', 'gegrLat', 'gegrLon'],
       options: {lean: true}
     });
     const results = await this.queryBus.execute(new ResultFindQuery({

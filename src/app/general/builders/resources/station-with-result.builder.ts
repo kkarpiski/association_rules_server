@@ -17,10 +17,10 @@ export class StationWithResultBuilder {
 
   private build(): StationWithResultInterface {
     const {result, station} = this;
-    const {stationName} = station;
+    const {stationName, gegrLat, gegrLon} = station;
     if (!result) {
       return {
-        stationName
+        stationName, gegrLat, gegrLon
       };
     }
     const {airQualityIndex, bayesClassifiedAirQualityIndex, measurementDate, results} = result;
@@ -29,7 +29,9 @@ export class StationWithResultBuilder {
       bayesClassifiedAirQualityIndex,
       measurementDate,
       results,
-      stationName
+      stationName,
+      gegrLat,
+      gegrLon
     };
   }
 }

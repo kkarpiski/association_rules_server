@@ -35,13 +35,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
     }
 
     this.logger.error(
-      `[${exception.message.error}] ${exception.message.message}`,
+      `[${exception.message['error']}] ${exception.message['message']}`,
       exception.stack
     );
 
     response.status(status).json({
       statusCode: status,
-      ...(exception.getResponse() as object),
+      ...exception.getResponse() as object,
       timestamp: new Date().toISOString()
     });
   }

@@ -41,9 +41,10 @@ export class AppDispatcher {
     this.microService = this.app.connectMicroservice(dispatchDataConfig.microService);
   }
 
-  private startMicroServices(): Promise<void> {
-    return this.app.startAllMicroservicesAsync();
+  private startMicroServices(): Promise<any> {
+   return this.app.startAllMicroservices();
   }
+
 
   public async startServer(): Promise<void> {
     const port = dispatchDataConfig.port;
